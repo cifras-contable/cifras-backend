@@ -1,3 +1,5 @@
-From openjdk:17
-copy ./target/cifras-backend-0.0.1-SNAPSHOT.jar cifras-backend-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","employee-producer-0.0.1-SNAPSHOT.jar"]
+FROM eclipse-temurin:21-jre-alpine
+RUN mkdir /opt/app
+COPY target/cifras.backend-*.jar /opt/app/app.jar
+CMD ["java", "-jar", "/opt/app/app.jar"]
+
