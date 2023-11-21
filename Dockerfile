@@ -1,5 +1,11 @@
-FROM eclipse-temurin:21-jre-alpine
-RUN mkdir /opt/app
-COPY target/cifras.backend-*.jar /opt/app/app.jar
-CMD ["java", "-jar", "/opt/app/app.jar"]
+FROM eclipse-temurin:21-jdk-alpine
 
+RUN apk add maven
+
+WORKDIR /opt/app
+
+COPY . .
+
+RUN mvn clean install
+
+CMD ["java", "-jar", "target/cifras.backend-*.jar"]
