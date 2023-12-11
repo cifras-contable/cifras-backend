@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: master
       - name: Reset promotion branch
         run: |
           git fetch origin master:master
@@ -19,4 +19,4 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: develop-promotion
+          branch: develop
