@@ -1172,7 +1172,7 @@ CREATE TABLE documentos_de_venta_libro_iva_ventas
 
 
 
-CREATE TABLE document5os_de_venta_detalle_de_retenciones_sufridas
+CREATE TABLE documentos_de_venta_detalle_de_retenciones_sufridas
 (
     id                              INT AUTO_INCREMENT PRIMARY KEY,
     id_empresa                      INT,
