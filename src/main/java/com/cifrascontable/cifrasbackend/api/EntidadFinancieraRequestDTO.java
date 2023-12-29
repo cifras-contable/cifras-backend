@@ -1,21 +1,14 @@
 package com.cifrascontable.cifrasbackend.api;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Builder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class EntidadFinancieraRequestDTO {
-
-	private String nombre;
-	private String tipo;
-	private String numeroCuenta;
-	private String cuit;
-	private String cbu;
-	private String alias;
-	private String cuitEmpresa;
-}
+@Builder
+public record EntidadFinancieraRequestDTO (
+	String nombre,
+	String tipo,
+	String numeroCuenta,
+	String cuit,
+	String cbu,
+	String alias,
+	String cuitEmpresa
+){}

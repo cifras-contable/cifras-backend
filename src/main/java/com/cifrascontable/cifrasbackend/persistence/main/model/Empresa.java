@@ -1,4 +1,4 @@
-package com.cifrascontable.cifrasbackend.persistence;
+package com.cifrascontable.cifrasbackend.persistence.main.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="empresa")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Empresa {
 
 	@Id
@@ -29,21 +31,8 @@ public class Empresa {
 	
 	@Column(name = "nombre_de_fantasia", length = 100)
 	private String nombreFantasia;
-	
-	//TODO: Mapear id_grupo -> Grupo de empresas
 
-	@Builder
-	public Empresa(String cuit, String razonSocial, String nombreFantasia) {
-		this.cuit = cuit;
-		this.razonSocial = razonSocial;
-		this.nombreFantasia = nombreFantasia;
-	}
-	
+	@Column(name = "id_grupo")
+	private Long idGrupo;
 
-	
-	
-	
-	
-	
-	
 }

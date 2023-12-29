@@ -1,4 +1,4 @@
-package com.cifrascontable.cifrasbackend.persistence;
+package com.cifrascontable.cifrasbackend.persistence.main.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,15 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Builder;
 
 @Entity
 @Table(name="entidades_financieras")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class EntidadFinanciera {
 	
 	@Id
@@ -48,28 +50,5 @@ public class EntidadFinanciera {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_empresa", nullable = false)
 	private Empresa empresa;
-
-	@Builder
-	public EntidadFinanciera(String nombre, 
-			String tipo, 
-			String numeroCuenta, 
-			String cuit, 
-			String cbu, 
-			String alias,
-			Integer idTransaccion,
-			Empresa empresa) {
-		this.nombre = nombre;
-		this.tipo = tipo;
-		this.numeroCuenta = numeroCuenta;
-		this.cuit = cuit;
-		this.cbu = cbu;
-		this.alias = alias;
-		this.idTransaccion = idTransaccion;
-		this.empresa = empresa;
-	}
-	
-	
-	
-	
 
 }
