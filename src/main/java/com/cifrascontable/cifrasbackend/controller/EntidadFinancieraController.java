@@ -7,12 +7,7 @@ import com.cifrascontable.cifrasbackend.service.EntidadFinancieraService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/v1/entidades_financieras"})
@@ -27,7 +22,7 @@ public class EntidadFinancieraController {
 
 
     //
-    @PostMapping
+    @PostMapping // El error de validación salta acá con un MethodArgumentNotValidException
     public ResponseEntity<EntidadFinancieraResponseDTO> createEntidadFinanciera(
         @Validated(EntidadFinancieraCreate.class)
         @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
@@ -35,6 +30,17 @@ public class EntidadFinancieraController {
         return new ResponseEntity<>(
             entidadFinancieraService.crearEntidadFinanciera(entidadFinancieraRequestDTO),
             HttpStatus.CREATED
+        );
+    }
+
+    @PutMapping("/{id}") // Acá no se valida, la validación se hace en el Service
+    public ResponseEntity<EntidadFinancieraResponseDTO> updateEntidadFinanciera(
+            @PathVariable Long id,
+            @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
+    ) {
+        return new ResponseEntity<>(
+                entidadFinancieraService.updateEntidadFinanciera(id, entidadFinancieraRequestDTO),
+                HttpStatus.OK
         );
     }
 

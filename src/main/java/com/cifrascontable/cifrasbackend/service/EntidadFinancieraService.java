@@ -2,15 +2,19 @@ package com.cifrascontable.cifrasbackend.service;
 
 import com.cifrascontable.cifrasbackend.api.EntidadFinancieraRequestDTO;
 import com.cifrascontable.cifrasbackend.api.EntidadFinancieraResponseDTO;
+import com.cifrascontable.cifrasbackend.api.validation.EntidadFinancieraUpdate;
 import com.cifrascontable.cifrasbackend.exception.EntidadFinancieraNotFoundException;
 import com.cifrascontable.cifrasbackend.exception.error.ResourceNotFoundException;
 import com.cifrascontable.cifrasbackend.persistence.main.model.Empresa;
 import com.cifrascontable.cifrasbackend.persistence.main.model.EntidadFinanciera;
 import com.cifrascontable.cifrasbackend.persistence.main.repository.EmpresaRepository;
 import com.cifrascontable.cifrasbackend.persistence.main.repository.EntidadFinancieraRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class EntidadFinancieraService {
 
 	private final EmpresaRepository empresaRepository;
@@ -51,6 +55,21 @@ public class EntidadFinancieraService {
 			.id(entidadFinanciera.getId())
 			.build();
 
+	}
+
+	// Acá salta la validación con un ConstraintViolationException
+	// (este endpoint usa el validacion group EntidadFinancieraUpdate que sólo exige el campo cuitEmpresa)
+	@Validated(EntidadFinancieraUpdate.class)
+	public EntidadFinancieraResponseDTO updateEntidadFinanciera(
+		Long id,
+		@Valid EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
+	) {
+		EntidadFinanciera entidadFinanciera = entidadFinancieraRepository.findById(id)
+				.orElseThrow(() -> new EntidadFinancieraNotFoundException("id", id));
+
+		// lógica de update
+
+		return EntidadFinancieraResponseDTO.builder().build();
 	}
 
 	public EntidadFinancieraResponseDTO getEntidadFinanciera(Long id) {
