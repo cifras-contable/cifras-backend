@@ -2,6 +2,7 @@ package com.cifrascontable.cifrasbackend.controller;
 
 import com.cifrascontable.cifrasbackend.api.EntidadFinancieraRequestDTO;
 import com.cifrascontable.cifrasbackend.api.EntidadFinancieraResponseDTO;
+import com.cifrascontable.cifrasbackend.api.response.ApiResponse;
 import com.cifrascontable.cifrasbackend.api.validation.EntidadFinancieraCreate;
 import com.cifrascontable.cifrasbackend.service.EntidadFinancieraService;
 import org.springframework.http.HttpStatus;
@@ -20,17 +21,16 @@ public class EntidadFinancieraController {
         this.entidadFinancieraService = entidadFinancieraService;
     }
 
-
-    //
-    @PostMapping // El error de validación salta acá con un MethodArgumentNotValidException
-    public ResponseEntity<EntidadFinancieraResponseDTO> createEntidadFinanciera(
+    @PostMapping
+    public ResponseEntity<ApiResponse<EntidadFinancieraResponseDTO>> createEntidadFinanciera(
         @Validated(EntidadFinancieraCreate.class)
         @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
     ) {
-        return new ResponseEntity<>(
-            entidadFinancieraService.crearEntidadFinanciera(entidadFinancieraRequestDTO),
-            HttpStatus.CREATED
-        );
+        ApiResponse<EntidadFinancieraResponseDTO> response = ApiResponse.created(entidadFinancieraService.crearEntidadFinanciera(entidadFinancieraRequestDTO));
+
+        return ResponseEntity
+            .status(HttpStatus.valueOf(response.getHttpStatus()))
+            .body(response);
     }
 
     @PutMapping("/{id}") // Acá no se valida, la validación se hace en el Service
@@ -39,19 +39,20 @@ public class EntidadFinancieraController {
             @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
     ) {
         return new ResponseEntity<>(
-                entidadFinancieraService.updateEntidadFinanciera(id, entidadFinancieraRequestDTO),
-                HttpStatus.OK
+            entidadFinancieraService.updateEntidadFinanciera(id, entidadFinancieraRequestDTO),
+            HttpStatus.OK
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntidadFinancieraResponseDTO> getEntidadFinanciera(
+    public ResponseEntity<ApiResponse<EntidadFinancieraResponseDTO>> getEntidadFinanciera(
         @PathVariable("id") Long id
     ) {
-        return new ResponseEntity<>(
-            entidadFinancieraService.getEntidadFinanciera(id),
-            HttpStatus.OK
-        );
+        ApiResponse<EntidadFinancieraResponseDTO> response = ApiResponse.okData(entidadFinancieraService.getEntidadFinanciera(id));
+
+        return ResponseEntity
+            .status(HttpStatus.valueOf(response.getHttpStatus()))
+            .body(response);
     }
 
 }
