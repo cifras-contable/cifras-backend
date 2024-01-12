@@ -5,11 +5,12 @@ import com.cifrascontable.cifrasbackend.api.validation.EntidadFinancieraUpdate;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 public record EntidadFinancieraRequestDTO (
 	@NotBlank(groups = {EntidadFinancieraCreate.class}, message = "El nombre es obligatorio.")
-	@Size(max = 50, groups = {EntidadFinancieraCreate.class}, message = "El nombre no puede tener más de 50 caracteres.")
+	@Size(max = 50, groups = {EntidadFinancieraCreate.class, EntidadFinancieraUpdate.class}, message = "El nombre no puede tener más de 50 caracteres.")
 	String nombre,
 	@NotBlank(groups = {EntidadFinancieraCreate.class}, message = "El tipo es obligatorio.")
 	String tipo,
@@ -21,6 +22,6 @@ public record EntidadFinancieraRequestDTO (
 	String cbu,
 	@NotBlank(groups = {EntidadFinancieraCreate.class}, message = "El alias es obligatorio.")
 	String alias,
-	@NotBlank(groups = {EntidadFinancieraCreate.class, EntidadFinancieraUpdate.class}, message = "El CUIT de la Empresa es obligatorio.")
+	@NotBlank(groups = {EntidadFinancieraCreate.class}, message = "El CUIT de la Empresa es obligatorio.")
 	String cuitEmpresa
 ){}

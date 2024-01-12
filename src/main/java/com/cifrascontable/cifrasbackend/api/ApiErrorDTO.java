@@ -1,11 +1,18 @@
 package com.cifrascontable.cifrasbackend.api;
 
-import lombok.Data;
+import com.cifrascontable.cifrasbackend.exception.error.ValidationError;
+import lombok.Builder;
+import org.springframework.http.HttpStatus;
 
-@Data
-public class ApiErrorDTO {
+import java.time.LocalDateTime;
+import java.util.List;
 
-    private int errorCode;
-    private String description;
-
-}
+@Builder
+public record ApiErrorDTO (
+    LocalDateTime timestamp,
+    Integer status,
+    HttpStatus error,
+    String message,
+    String path,
+    List<ValidationError> validations
+) { }

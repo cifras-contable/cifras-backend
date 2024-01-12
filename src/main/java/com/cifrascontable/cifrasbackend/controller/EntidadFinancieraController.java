@@ -2,8 +2,8 @@ package com.cifrascontable.cifrasbackend.controller;
 
 import com.cifrascontable.cifrasbackend.api.EntidadFinancieraRequestDTO;
 import com.cifrascontable.cifrasbackend.api.EntidadFinancieraResponseDTO;
-import com.cifrascontable.cifrasbackend.api.response.ApiResponse;
 import com.cifrascontable.cifrasbackend.api.validation.EntidadFinancieraCreate;
+import com.cifrascontable.cifrasbackend.api.validation.EntidadFinancieraUpdate;
 import com.cifrascontable.cifrasbackend.service.EntidadFinancieraService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +22,21 @@ public class EntidadFinancieraController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<EntidadFinancieraResponseDTO>> createEntidadFinanciera(
+    public ResponseEntity<EntidadFinancieraResponseDTO> createEntidadFinanciera(
         @Validated(EntidadFinancieraCreate.class)
         @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
     ) {
-        ApiResponse<EntidadFinancieraResponseDTO> response = ApiResponse.created(entidadFinancieraService.crearEntidadFinanciera(entidadFinancieraRequestDTO));
-
-        return ResponseEntity
-            .status(HttpStatus.valueOf(response.getHttpStatus()))
-            .body(response);
+        return new ResponseEntity<>(
+            entidadFinancieraService.crearEntidadFinanciera(entidadFinancieraRequestDTO),
+            HttpStatus.CREATED
+        );
     }
 
-    @PutMapping("/{id}") // Acá no se valida, la validación se hace en el Service
+    @PutMapping("/{id}")
     public ResponseEntity<EntidadFinancieraResponseDTO> updateEntidadFinanciera(
-            @PathVariable Long id,
-            @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
+        @PathVariable Long id,
+        @Validated(EntidadFinancieraUpdate.class)
+        @RequestBody EntidadFinancieraRequestDTO entidadFinancieraRequestDTO
     ) {
         return new ResponseEntity<>(
             entidadFinancieraService.updateEntidadFinanciera(id, entidadFinancieraRequestDTO),
@@ -45,14 +45,13 @@ public class EntidadFinancieraController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<EntidadFinancieraResponseDTO>> getEntidadFinanciera(
+    public ResponseEntity<EntidadFinancieraResponseDTO> getEntidadFinanciera(
         @PathVariable("id") Long id
     ) {
-        ApiResponse<EntidadFinancieraResponseDTO> response = ApiResponse.okData(entidadFinancieraService.getEntidadFinanciera(id));
-
-        return ResponseEntity
-            .status(HttpStatus.valueOf(response.getHttpStatus()))
-            .body(response);
+        return new ResponseEntity<>(
+            entidadFinancieraService.getEntidadFinanciera(id),
+            HttpStatus.OK
+        );
     }
 
 }
